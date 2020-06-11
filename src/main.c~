@@ -1,0 +1,94 @@
+#include "miniRT.h"
+
+void	my_pixel_put(t_data *data, int x, int y, int color)
+{
+	char	*dst;
+
+	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	*(unsigned int *)dst = color;
+}
+
+int main(void)
+{
+	int height;
+	int width;
+	void *mlx_ptr;
+	void *win_ptr;
+	t_data img;
+	int offset;
+	t_vector pixel;
+	int x;
+	int y;
+	int i;
+	float u;
+	float v;
+	float intensite;
+	t_vector origin;
+	t_vector direction;
+	t_vector horizontal;
+	t_vector vertical;
+	t_vector lower_left_corner;
+	t_vector color;
+	t_vector position_lumiere;
+	t_ray	r;
+	t_sphere	s;
+	t_scene		scene;
+	t_sphere list[7];
+	t_plane		plane;
+	
+	list[0] =  create_sphere(-2000-50, 0, 0, 2000, vec_init(0,0,1)); //gauche
+	list[1] =  create_sphere(2000+50, 0, 0, 2000, vec_init(0,0,1)); //droite
+	list[2] =  create_sphere(0, -2000-20, 0, 2000, vec_init(1,1,1)); //bas
+	list[3] =  create_sphere(0, 2000+100, 0, 2000, vec_init(1,1,1)); // haut
+	list[4] =  create_sphere(0, 0, -2000-100, 2000, vec_init(0,1,1)); //fond
+	list[5] = create_sphere(15, 0, -50, 10, vec_init(1, 0, 0)); //objet
+	list[6] = create_sphere(-15, 0, -50, 10, vec_init(0, 1, 0));
+	list[5].mirror = 1;
+	list[6].transparent = 0;
+	
+	plane = create_plane(vec_init(0.0, 0.0, -10.0), vec_init(0, -1,0), vec_init(1,0,0));
+
+//	t = create_triangle(vec_init(15,0,-30), vec_init(-15, 0, -30),vec_init(0,15, -30),vec_init(1,0,0));
+
+	origin = vec_init(0, 0, 0);
+	scene.nbSpheres =  sizeof(list) / sizeof(list[0]);
+	height = 500;
+	width = 500;
+	double fov;
+	fov = 60 * PI / 180;
+	scene.l_int = 100000000;
+	scene.l_position = vec_init(0, 50, 0);
+	scene.spheres = list;
+
+	mlx_ptr = mlx_init();
+	win_ptr = mlx_new_window(mlx_ptr, width, height, "Window");
+	img.img = mlx_new_image(mlx_ptr, width, height);
+	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
+	mlx_put_image_to_window(mlx_ptr, win_ptr, img.img, 0,0);
+	y = 0;
+	while (y < height)
+	{
+		x = 0;
+		while (x < width)
+		{
+			u = (float)x / (float)width;
+			v = (float)y / (float)height;
+			direction = vec_init(x-width/2, y-height/2, (width * -1)/(2*tan(fov/2)));
+		//	vec_display(direction);
+			r = ray_init(origin, vec_normalize(direction));
+			i = 0;
+			t_vector i_pixel;
+
+			i_pixel = pl_intersect(plane, r, scene);//get_color(r, scene, 6);
+			pixel.x = (int)ft_min(255, ft_max(0, pow(i_pixel.x, 1/2.2)));
+			pixel.y = (int)ft_min(255, ft_max(0, pow(i_pixel.y, 1/2.2)));
+			pixel.z = (int)ft_min(255, ft_max(0, pow(i_pixel.z, 1/2.2)));
+			my_pixel_put(&img, x, height - y - 1, create_rgb(pixel));
+			x++;
+		}
+		y++;
+	}
+
+	mlx_put_image_to_window(mlx_ptr, win_ptr, img.img, 0,0);
+	mlx_loop(mlx_ptr);
+}
