@@ -1,4 +1,4 @@
-#include "miniRT.h"
+#include "minirt.h"
 
 t_sphere	create_sphere(t_vector c, float r, t_vector albedo)
 {

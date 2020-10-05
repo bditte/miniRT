@@ -1,4 +1,4 @@
-#include "miniRT.h"
+#include "minirt.h"
 
 void	assign_inter(t_inter src, t_inter *dst)
 {

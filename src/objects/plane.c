@@ -1,4 +1,4 @@
-#include "miniRT.h"
+#include "minirt.h"
 
 t_plane	create_plane(t_vector c, t_vector n, t_vector color)
 {

@@ -1,4 +1,4 @@
-#include "miniRT.h"
+#include "minirt.h"
 
 int	hit_tr(t_ray r, t_triangle triangle, t_inter *inter)
 {
@@ -17,9 +17,9 @@ int	hit_tr(t_ray r, t_triangle triangle, t_inter *inter)
 	a.u = vec_sub(triangle.b, triangle.a);
 	a.v = vec_sub(triangle.c, triangle.a);
 	a.w = vec_sub(inter->p, triangle.a);
-	a.m11 = getNorme2(a.u);
+	a.m11 = getnorme2(a.u);
 	a.m12 = dot(a.u, a.v);
-	a.m22 = getNorme2(a.v);
+	a.m22 = getnorme2(a.v);
 	a.det = a.m11 * a.m22 - a.m12 * a.m12;
 	b.m11 = dot(a.w, a.u);
 	b.m21 = dot(a.w, a.v);
@@ -38,19 +38,19 @@ int	hit_tr(t_ray r, t_triangle triangle, t_inter *inter)
 	return (1);
 }
 
-int	tr_inter(t_ray r, t_scene s, t_inter *inter)
+int	tr_inter(t_scene s, t_inter *inter)
 {
 	int res;
 	t_inter local;
 
 	res = 0;
 	local.i = 0;
-	while (local.i < s.nbTriangles)
+	while (local.i < s.nbtriangles)
 	{
-		if (hit_tr(r, s.triangles[local.i], &local) == 1)
+		if (hit_tr(s.r, s.triangles[local.i], &local) == 1)
 		{
 			res = 1;
-			if (local.t < inter->t);
+			if (local.t < inter->t)
 				*inter = local;
 		}
 		local.i++;
@@ -58,15 +58,16 @@ int	tr_inter(t_ray r, t_scene s, t_inter *inter)
 	return (res);
 }
 
-t_inter		triangle_color(t_ray r, t_scene s, int nbRebonds)
+t_inter		triangle_color(t_scene s)
 {
 	t_inter		inter;
 
 	inter.t = 2147483647;	
-	if (tr_inter(r, s, &inter))
+	if (tr_inter(s, &inter))
 	{
 		inter.color = s.triangles[inter.i].color;//result = lighting(r, s, inter);//s.triangles[inter.i].color;
 		inter.type = 2;
+		inter.point = s.triangles[inter.i].a;
 	}
 	else
 		inter.t = -1;

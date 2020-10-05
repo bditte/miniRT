@@ -1,4 +1,4 @@
-#include "miniRT.h"
+#include "minirt.h"
 
 t_cylinder	create_cy(t_vector c, t_vector a, float r, float h, t_vector b)
 {

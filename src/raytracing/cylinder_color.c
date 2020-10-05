@@ -1,10 +1,8 @@
-#include "miniRT.h"
+#include "minirt.h"
 
 int	quadratic_solve(t_vector abc, float *x1, float *x2)
 {
 	float	delta;
-	float	q;
-	float	temp;
 
 	delta = abc.y * abc.y - 4.0 * abc.x * abc.z;
 	if (delta < 0)
@@ -33,9 +31,9 @@ t_cyl_vars	get_cyl_vars(t_ray r, t_cylinder cyl)
 	vars.oc = vec_sub(vars.p, vars.pa);
 	vars.utils1 = vec_sub(vars.v, vec_multiply_t(dot(vars.v, vars.va), vars.va));
 	vars.utils2 = vec_sub(vars.oc, vec_multiply_t(dot(vars.oc, vars.va), vars.va));
-	vars.abc.x = getNorme2(vars.utils1);
+	vars.abc.x = getnorme2(vars.utils1);
 	vars.abc.y = 2.0 * dot(vars.utils1, vars.utils2);
-	vars.abc.z = getNorme2(vars.utils2) - cyl.r * cyl.r;
+	vars.abc.z = getnorme2(vars.utils2) - cyl.r * cyl.r;
 	vars.vec1 = vec_sub(vars.pa, vec_multiply_t(cyl.h / 2, vars.va));
 	vars.vec2 = vec_add(vars.pa, vec_multiply_t(cyl.h / 2, vars.va));
 	return (vars);
@@ -55,7 +53,6 @@ t_vector	invert(t_vector vec)
 t_vector	get_normal(t_ray r, t_vector normal)
 {
 	float res;
-	t_vector	temp;
 	
 	res = dot(r.dir, normal);
 	if (res < 0)
@@ -71,7 +68,7 @@ void	get_cyl_data(t_ray r, float res, t_cylinder cyl, t_inter *inter)
 	inter->t = res;
 	inter->color = cyl.color;
 	inter->p = vec_add(r.o, vec_multiply_t(res, r.dir));
-	inter->n = //get_normal(r, cyl.axis);
+	inter->n = get_normal(r, cyl.axis);
 	vec_sub(pc, vec_multiply_t(dot(cyl.axis, pc), cyl.axis));
 	/*
  *
@@ -106,7 +103,7 @@ int	hit_cy(t_ray r, t_cylinder cyl, t_inter *inter)
 		
 }
 
-int	cy_inter(t_ray r, t_scene s, t_inter *inter)
+int	cy_inter(t_scene s, t_inter *inter)
 {
 	int	res;
 	t_inter	local;
@@ -114,9 +111,9 @@ int	cy_inter(t_ray r, t_scene s, t_inter *inter)
 	local.t = 214748364700;
 	local.i = 0;
 	res = 0;
-	while (local.i < s.nbCylinders)
+	while (local.i < s.nbcylinders)
 	{
-		if (hit_cy(r, s.cylinders[local.i], &local))
+		if (hit_cy(s.r, s.cylinders[local.i], &local))
 		{
 			res = 1;
 			if (local.t < inter->t && local.t > 0)
@@ -127,15 +124,16 @@ int	cy_inter(t_ray r, t_scene s, t_inter *inter)
 	return (res);
 }
 
-t_inter	cylinder_color(t_ray r, t_scene s, int nbRebonds)
+t_inter	cylinder_color(t_scene s)
 {
 	t_inter	inter;
 
 	inter.t = 2147483647;
-	if (cy_inter(r, s, &inter))
+	if (cy_inter(s, &inter))
 	{
 		inter.color = s.cylinders[inter.i].color;
 		inter.type = 3;
+		inter.point = s.cylinders[inter.i].c;
 	}
 	else
 		inter.t = -1;

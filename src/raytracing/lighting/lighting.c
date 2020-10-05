@@ -1,52 +1,80 @@
-#include "miniRT.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lighting.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/20 16:50:07 by bditte            #+#    #+#             */
+/*   Updated: 2020/09/25 18:45:14 by bditte           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-t_vector	positive(t_vector vec)
+#include "minirt.h"
+
+t_vector	get_plane_n(t_vector vec_l, t_vector n)
 {
-	if (vec.x < 0)
-		vec.x *= -1;
-	if (vec.y < 0)
-		vec.y *= -1;
-	if (vec.z < 0)
-		vec.z *= -1;
-	return (vec);
+	float norm1;
+
+	norm1 = getnorme2(vec_l);
+	if (getnorme2(vec_add(vec_l, vec_multiply_t(0.01, n))) < norm1)
+		return (vec_multiply_t(-1, n));
+	return (vec_multiply_t(1, n));
 }
 
-t_vector	lighting(t_ray r, t_scene s, t_inter inter)
+void		get_shadows(t_scene s, t_inter inter, t_vector vec_l, t_inter *l_inter)
 {
-	t_inter		light_inter;
-	t_ray		ray_light;
-	t_vector	vec_l;
-	float		d_light2;
 	t_vector	offset;
-	int		has_inter;
-	t_vector color;
-	float		scalar;
 
-	vec_l = vec_sub(s.l_position, inter.p);
-	//vec_display(inter.p);
+	if (inter.type == PLANE || inter.type == SQUARE)
+		inter.n = get_plane_n(vec_l, inter.n);
 	offset = vec_multiply_t(0.01, inter.n);
-	ray_light = ray_init(vec_add(inter.p, offset), vec_normalize(vec_l));
-	light_inter = intersections(ray_light,s, 5);
-	d_light2 = getNorme2(vec_l);
-	if (inter.type == 1)
+	s.r = ray_init(vec_add(inter.p, offset), vec_normalize(vec_l));
+	*l_inter = intersections(s);
+}
+
+t_vector	apply_ambient(t_scene s, t_inter inter)
+{
+	t_vector	color;
+	t_vector	tmp;
+	
+	tmp = vec_multiply_t(s.ambient_int / 100000, s.ambient_color);
+	color = vec_multi(inter.color, tmp);
+	return (color);
+}
+t_vector	get_color(t_scene s, t_inter inter, t_vector color, t_inter *l_inter)
+{
+	int		i;
+	float		ratio;
+	float		d_light2;
+	t_vector	l_color;
+	t_vector	vec_l;
+	
+	i = -1;
+	color = apply_ambient(s, inter);
+	while (++i < s.nblights)
 	{
-		printf("%f\n", dot(vec_normalize(vec_l), inter.n));	
+		vec_l = vec_sub(s.lights[i].pos, inter.p);
+		d_light2 = getnorme2(vec_l);
+		get_shadows(s, inter, vec_l, l_inter);
+		if (l_inter->t > 0 && (l_inter->t * l_inter->t < d_light2))
+		{
+			//printf("1st pl : %d  t %f 2nd pl %d\n", inter.i, l_inter->t, l_inter->i);
+			//printf("l_type :%d l_i : %d type : %d i : %d\n", l_inter->type, l_inter->i, inter.type, inter.i);
+			continue;
+		}
+		l_color = vec_multi(s.lights[i].color, inter.color); 
+		ratio = ft_max(0, dot(vec_normalize(vec_l), inter.n)) / d_light2;
+		color = vec_add(vec_multiply_t(ratio * s.lights[i].ratio, l_color), color);
 	}
-	if (light_inter.t > 0 && (light_inter.t * light_inter.t < d_light2))
-		return (vec_init(0,0,0));
-	else
-		return (vec_multiply_t(s.l_int * ft_max(0, dot(vec_normalize(vec_l), inter.n)) /d_light2, inter.color));
-	if (inter.type == 3)
-		printf("here\n");
-/*	if (inter.type == 1)	{
-		return (vec_create(255,0,0));
-		vec_display(vec_l);
-		printf("\n");
-	}	//printf("%d\n", light_inter.type);
-*/		//return (vec_init(0,0,0));
-	scalar = dot(vec_normalize(vec_l), inter.n);
-	color = vec_multiply_t(s.l_int * ft_max(0, scalar) /d_light2, inter.color);
-//	vec_display(color);
-//	printf("%f\n",dot(vec_normalize(vec_l), inter.n));
-	return (vec_multiply_t(s.l_int, inter.color));
+	color = vec_multiply_t(500000000, color);
+	return (color);
+}
+
+t_vector	lighting(t_scene s, t_inter inter)
+{	t_inter		light_inter;
+	t_vector 	color;
+	
+	color = vec_init(0,0,0);
+	return (get_color(s, inter, color, &light_inter));
 }

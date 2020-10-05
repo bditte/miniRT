@@ -1,13 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   triangle.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/17 20:32:58 by bditte            #+#    #+#             */
+/*   Updated: 2020/06/21 23:22:45 by bditte           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef TRIANGLE_H
 # define TRIANGLE_H
 
-typedef	struct	s_triangle
+typedef struct	s_triangle
 {
 	t_vector a;
 	t_vector b;
 	t_vector c;
 	t_vector color;
-}		t_triangle;
+}				t_triangle;
 
-t_triangle      create_triangle(t_vector x, t_vector y, t_vector z, t_vector color);
-# endif
+t_triangle		create_tr(t_vector x, t_vector y, t_vector z, t_vector color);
+#endif

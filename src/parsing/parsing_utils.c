@@ -1,23 +1,35 @@
-#include "miniRT.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/22 01:26:09 by bditte            #+#    #+#             */
+/*   Updated: 2020/10/05 16:09:26 by bditte           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int     ft_iscoord(char c)
+#include "minirt.h"
+
+int			ft_iscoord(char c)
 {
-        if (48 <= c && c <= 57)
-                return (1);
-        else if (c == '-' || c == '.' || c == ',')
-                return (1);
-        return (0);
+	if (48 <= c && c <= 57)
+		return (1);
+	else if (c == '-' || c == '.' || c == ',')
+		return (1);
+	return (0);
 }
 
-float		parse_float(char *line, int *i)
+float		parse_float(char *l, int *i)
 {
-	int	j;
+	int		j;
 	char	tmp[10];
-	
+
 	j = 0;
-	while ((48 <= line[*i] && line[*i] <= 57) || line[*i] == '.' && !ft_isspace(line[*i]))
+	while (((48 <= l[*i] && l[*i] <= 57) || l[*i] == '.') && !ft_isspace(l[*i]))
 	{
-		tmp[j++] = line[*i];
+		tmp[j++] = l[*i];
 		*i += 1;
 	}
 	tmp[j] = '\0';
@@ -26,10 +38,10 @@ float		parse_float(char *line, int *i)
 
 float		ft_atof(char *str)
 {
-	int	neg;
+	int		neg;
 	float	res;
-	int	i;
-	int 	j;
+	int		i;
+	int		j;
 
 	j = 1;
 	i = 0;
@@ -55,46 +67,35 @@ float		ft_atof(char *str)
 
 t_vector	parse_vec(char *line, int *i)
 {
-	t_vector result;
-	int	j;
-	int	n;
-	char 	tmp[100];
+	t_vector	result;
+	int			j;
+	int			n;
+	char		tmp[100];
 
 	n = 0;
 	while (ft_iscoord(line[*i]) && n < 3)
 	{
 		j = 0;
 		while (line[*i] != ',' && !ft_isspace(line[*i]) && line[*i])
-		{
-			tmp[j++] = line[*i];
-			*i += 1;
-		}
+			tmp[j++] = line[(*i)++];
 		tmp[j] = '\0';
 		if (n == 0)
-		{
-			result.x = ft_atof(tmp); 
-			n++;
-		}
+			result.x = ft_atof(tmp);
 		else if (n == 1)
-		{
 			result.y = ft_atof(tmp);
-			n++;
-		}
 		else
-		{
 			result.z = ft_atof(tmp);
-			n++;
-		}
+		n++;
 		if (ft_iscoord(line[*i]))
 			*i += 1;
 	}
 	return (result);
 }
 
-t_vector	convert_color(t_vector color)
+t_vector	conv_color(t_vector color)
 {
-	color.x /= 255;	
-	color.y /= 255;	
+	color.x /= 255;
+	color.y /= 255;
 	color.z /= 255;
 	return (color);
 }

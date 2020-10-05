@@ -1,4 +1,4 @@
-#include "miniRT.h"
+#include "minirt.h"
 
 int     create_rgb(t_vector pixel)
 {

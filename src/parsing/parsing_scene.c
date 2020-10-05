@@ -1,31 +1,140 @@
-#include "miniRT.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_scene.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/21 23:55:59 by bditte            #+#    #+#             */
+/*   Updated: 2020/10/01 13:35:47 by bditte           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void    parse_r(char *line, t_scene *scene)
+#include "minirt.h"
+
+void	parse_r2(t_scene *scene, int *tab)
 {
-        char    tmp[5];
-        int     i;
-        int     j;
-        int     n;
+	mlx_get_screen_size(scene->data.mlx, &tab[2], &tab[3]);
+	if (scene->data.width > tab[2])
+		scene->data.width = tab[2];
+	if (scene->data.height > tab[3])
+		scene->data.height = tab[3];
+	scene->data.r = 1;	
+}
 
-        n = 0;
-        i = 1;
-        while (line[i])
-        {
-                if (48 <= line[i] && line [i] <= 57)
-                {
-                        j = 0;
-                        while (48 <= line[i] && line [i] <= 57)
-                                tmp[j++] = line[i++];
-                        tmp[j] = 0;
-                        if (n == 0)
-                                scene->width = ft_atoi(tmp);
-                        else if (n == 1)
-                                scene->height = ft_atoi(tmp);
-                        else
-                                error(-2);
-                        n++;
-                        i--;
-                }
-                i++;
-        }
+void	parse_r(char *line, t_scene *scene)
+{
+	int	i;
+	int	n;
+	int	tab[4];
+
+	n = 0;
+	i = 0;
+	while (line[++i] && n < 2)
+	{
+		if (!ft_isspace(line[i]))
+		{
+			if (48 <= line[i] && line[i] <= 57)
+			{	
+				tab[n] = parse_int(line, &i);
+				if (n == 0)
+					scene->data.width = tab[n];
+				else if (n == 1)
+					scene->data.height = tab[n];
+				n++;
+			}
+			else
+				error(-10);
+		}
+	}
+	parse_r2(scene, tab);
+}
+
+void	parse_a(char *line, t_scene *scene)
+{
+	int n;
+	int i;
+
+	i = 0;
+	n = 0;
+	while (line[++i] && n < 2)
+	{
+		if (!ft_isspace(line[i]))
+		{
+			if (48 <= line[i] && line[i] <= 57)
+			{
+				if (n == 0)
+					scene->ambient_int = parse_float(line, &i);
+				else if (n == 1)
+					scene->ambient_color = conv_color(parse_vec(line, &i));
+				n++;
+			}
+			else
+				error(-12);
+		}
+	}
+	if (check_ratio(scene->ambient_int 
+				|| check_color(scene->ambient_color)))
+		error(-12);
+	scene->data.a = 1;
+}
+
+void	parse_l(char *line, t_scene *scene)
+{
+	int			n;
+	int			i;
+	t_vector	tab[2];
+	float		ratio;
+
+	n = 0;
+	i = 0;
+	while (line[i] && n < 3)
+	{
+		if (ft_iscoord(line[i]))
+		{
+			if (n == 0)
+				tab[0] = parse_vec(line, &i);
+			else if (n == 2 && ft_isdigit(line[i]))
+				tab[1] = conv_color(parse_vec(line, &i));
+			else if (n == 1 && ft_isdigit(line[i]))
+				ratio = parse_float(line, &i);
+			else
+				error(-13);
+			n++;
+		}
+		i++;
+	}
+	if (check_ratio(ratio || check_color(tab[1])))
+		error(-13);
+	*scene->lights = create_light(tab[0], ratio, tab[1]);
+	scene->lights++;
+}
+
+void	parse_c(char *line, t_scene *scene)
+{
+	int 		i;
+	int		n;
+	int		fov;
+	t_vector	vec[2];
+
+	i = 0;
+	n = 0;
+	while (line[++i])
+	{
+		if (ft_iscoord(line[i]) && n < 2)
+		{
+			vec[n] = parse_vec(line, &i);
+			n++;
+		}
+		else if (ft_isdigit(line[i]))
+		{
+			fov = parse_int(line, &i);
+			n++;
+		}
+	}
+	if (fov > 180 || n != 3 || fov < 0)
+		error(-15);
+	*scene->cams = cam_update_forward(create_cam(vec[0], vec[1], fov));
+	//*scene->cams = create_cam(vec[0], vec[1], fov);
+	scene->cams++;
 }

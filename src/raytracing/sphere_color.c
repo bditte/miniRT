@@ -1,6 +1,6 @@
-#include "miniRT.h"
-
-t_vector	transparent(t_ray r, t_scene s, t_vector p, t_vector n, int nbRebonds)
+#include "minirt.h"
+/*
+t_vector	transparent(t_scene s, t_vector p, t_vector n)
 {
 	t_vector direction_refract;
 	t_vector transparent_n = n;
@@ -26,12 +26,12 @@ t_vector	transparent(t_ray r, t_scene s, t_vector p, t_vector n, int nbRebonds)
 		offset = vec_multiply_t(0.01, transparent_n);
 		direction_refract = vec_sub(tangent, vec_multiply_t(sqrt(radical),transparent_n));
 		r = ray_init(vec_add(p, offset), direction_refract);
-		i_pixel = get_color(r, s, nbRebonds - 1);
+		i_pixel = raytrace(r, s);
 		
 	}
 	return (i_pixel);
 }
-
+*/
 float   hit_sp(t_sphere s, t_ray r, t_inter *local)
 {
         t_vector oc;
@@ -46,7 +46,7 @@ float   hit_sp(t_sphere s, t_ray r, t_inter *local)
         oc = vec_sub(r.o, s.c);
         a = 1;
         b = 2.0 * dot(r.dir, oc);
-        c = getNorme2(oc) - s.r * s.r;
+        c = getnorme2(oc) - s.r * s.r;
         discriminant = b*b - 4*a*c;
         t1 = ((b * -1) - sqrt(discriminant)) / (2*a);
         t2 = ((b * -1) + sqrt(discriminant)) / (2*a);
@@ -64,7 +64,7 @@ float   hit_sp(t_sphere s, t_ray r, t_inter *local)
         return (t);
 }
 
-int     sp_inter(t_scene s, t_ray r, t_inter *inter)
+int     sp_inter(t_scene s, t_inter *inter)
 {
         float t_min;
         t_inter local;
@@ -73,9 +73,9 @@ int     sp_inter(t_scene s, t_ray r, t_inter *inter)
         t_min = 2147513;
         local.i = 0;
         has_inter = 0;
-        while (local.i < s.nbSpheres)
+        while (local.i < s.nbspheres)
         {
-                local.t = hit_sp(s.spheres[local.i], r, &local);
+                local.t = hit_sp(s.spheres[local.i], s.r, &local);
                 if (local.t > 0.0)
                 {
                         has_inter = 1;
@@ -90,20 +90,12 @@ int     sp_inter(t_scene s, t_ray r, t_inter *inter)
         return (has_inter);
 }
 
-t_inter	sphere_color(t_ray r, t_scene s, int nbRebonds)
+t_inter	sphere_color(t_scene s)
 {
 	t_inter	 inter;
-        t_vector vec_l;
-        t_vector i_pixel;
 	int has_inter;
-        float t_light;
 
-        int i;
-        t_vector offset;
-        if (nbRebonds == 0)
-                inter.color = vec_init(0,0,0);
-        has_inter = sp_inter(s, r, &inter);
-        i_pixel = vec_init(0,0,0);
+        has_inter = sp_inter(s, &inter);
 	if (has_inter)
         {
 
@@ -121,7 +113,7 @@ t_inter	sphere_color(t_ray r, t_scene s, int nbRebonds)
 		else*/
 		inter.color = s.spheres[inter.i].albedo;//i_pixel = lighting(r, s, inter);
                	inter.type = 0;
-
+		inter.point = s.spheres[inter.i].c;
         }
 	else
 		inter.t  = -1;

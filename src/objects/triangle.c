@@ -1,6 +1,6 @@
-#include "miniRT.h"
+#include "minirt.h"
 
-t_triangle	create_triangle(t_vector x, t_vector y, t_vector z, t_vector color)
+t_triangle	create_tr(t_vector x, t_vector y, t_vector z, t_vector color)
 {
 	t_triangle result;
 

@@ -1,4 +1,4 @@
-#include "miniRT.h"
+#include "minirt.h"
 
 t_vector	vec_add(t_vector vec1, t_vector vec2)
 {
