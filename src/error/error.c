@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 00:09:50 by bditte            #+#    #+#             */
-/*   Updated: 2020/10/05 16:11:45 by bditte           ###   ########.fr       */
+/*   Updated: 2020/10/06 13:09:16 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ void	scene_error(int n)
 {
 	if (n == -10)
 		ft_putstr("Error -10: Invalid resolution.\n");
-	if (n == -11)
-		ft_putstr("Error -11: Unique element declared twice.\n");
+	if (n == -111)
+		ft_putstr("Error -111: Resolution has to be declared once only.\n");
+	if (n == -112)
+		ft_putstr("Error -112: Ambient light has to be declared once only.\n");
 	if (n == -12)
 		ft_putstr("Error -12: Invalid ambient light.\n");
 	if (n == -13)

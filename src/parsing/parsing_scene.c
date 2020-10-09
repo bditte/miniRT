@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/21 23:55:59 by bditte            #+#    #+#             */
-/*   Updated: 2020/10/01 13:35:47 by bditte           ###   ########.fr       */
+/*   Updated: 2020/10/09 17:21:36 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void	parse_c(char *line, t_scene *scene)
 	}
 	if (fov > 180 || n != 3 || fov < 0)
 		error(-15);
-	*scene->cams = cam_update_forward(create_cam(vec[0], vec[1], fov));
+	*scene->cams = create_cam(vec[0], vec[1], fov);
 	//*scene->cams = create_cam(vec[0], vec[1], fov);
 	scene->cams++;
 }

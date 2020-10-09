@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/22 00:47:20 by bditte            #+#    #+#             */
-/*   Updated: 2020/10/05 16:09:18 by bditte           ###   ########.fr       */
+/*   Updated: 2020/10/06 13:05:40 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	count_objects(char *file, t_scene *scene)
 				scene->nbspheres++;
 			if (line[1] == 'q')
 				scene->nbsquares++;
-		
+
 		}
 		if (line[0] == 'p' && line[1] == 'l')
 			scene->nbplanes++;
@@ -84,9 +84,17 @@ void	scene_init(t_scene *scene)
 void	check_flags(char *line, t_scene *scene)
 {
 	if (line[0] == 'R' && ft_isspace(line[1]))
+	{
+		if (scene->data.r)
+			error(-111);
 		parse_r(line, scene);
+	}
 	else if(line[0] == 'A' && ft_isspace(line[1]))
+	{
+		if (scene->data.a)
+			error(-112);	
 		parse_a(line, scene);
+	}
 	else if (line[0] == 'l' && ft_isspace(line[1]))
 		parse_l(line, scene);
 	else if (line[0] == 's')
