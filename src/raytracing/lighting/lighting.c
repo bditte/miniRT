@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/20 16:50:07 by bditte            #+#    #+#             */
-/*   Updated: 2020/09/25 18:45:14 by bditte           ###   ########.fr       */
+/*   Updated: 2020/10/10 18:32:00 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ t_vector	get_color(t_scene s, t_inter inter, t_vector color, t_inter *l_inter)
 t_vector	lighting(t_scene s, t_inter inter)
 {	t_inter		light_inter;
 	t_vector 	color;
-	
+
+	if (inter.type == CYLINDER)
 	color = vec_init(0,0,0);
 	return (get_color(s, inter, color, &light_inter));
 }

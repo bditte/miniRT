@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 19:03:46 by bditte            #+#    #+#             */
-/*   Updated: 2020/06/29 16:16:46 by bditte           ###   ########.fr       */
+/*   Updated: 2020/10/10 15:46:06 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	sq_inter(t_scene s, t_inter *inter)
 		if (hit_sq(s.r, s.squares[local.i], &local))
 		{
 			res = 1;
-			if (local.t < inter->t)
+			if (local.t < inter->t || inter->t == -1)
 				*inter = local;
 		}
 		local.i++;
@@ -61,7 +61,7 @@ t_inter		square_color(t_scene s)
 {
 	t_inter 	inter;
 	
-	inter.t = FLT_MAX;
+	inter.t = -1;
 	inter.i = 0;
 	if (sq_inter(s, &inter))
 	{

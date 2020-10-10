@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 17:57:11 by bditte            #+#    #+#             */
-/*   Updated: 2020/10/09 17:55:02 by bditte           ###   ########.fr       */
+/*   Updated: 2020/10/10 19:03:34 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_ray        get_dir(t_scene s, float x, float y, t_cam cam)
 	else
 		tmp.y *= h / w;
 	get_camtoworld(cam, m);
-	ray.o = mult_vec_mat(vec_create(0,0,0), m);
+	ray.o = cam.pos;
 	ray.dir = mult_vec_mat(tmp, m);
 	ray.dir = vec_sub(ray.dir, ray.o);
 	ray.dir = vec_normalize(ray.dir);

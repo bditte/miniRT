@@ -68,13 +68,8 @@ void	get_cyl_data(t_ray r, float res, t_cylinder cyl, t_inter *inter)
 	inter->t = res;
 	inter->color = cyl.color;
 	inter->p = vec_add(r.o, vec_multiply_t(res, r.dir));
-	inter->n = get_normal(r, cyl.axis);
+	inter->n = vec_sub(inter->p, cyl.c);//get_normal(r, cyl.axis);
 	vec_sub(pc, vec_multiply_t(dot(cyl.axis, pc), cyl.axis));
-	/*
- *
- *	inter->p = 
- *	inter->n =  
-*/
 }
 
 int	hit_cy(t_ray r, t_cylinder cyl, t_inter *inter)
@@ -108,15 +103,14 @@ int	cy_inter(t_scene s, t_inter *inter)
 	int	res;
 	t_inter	local;
 
-	local.t = 214748364700;
 	local.i = 0;
 	res = 0;
 	while (local.i < s.nbcylinders)
 	{
-		if (hit_cy(s.r, s.cylinders[local.i], &local))
+		if (hit_cy(s.r, s.cylinders[local.i], &local) && local.t > 0)
 		{
 			res = 1;
-			if (local.t < inter->t && local.t > 0)
+			if (local.t < inter->t || inter->t == -1)
 				*inter = local;
 		}
 		local.i++;
@@ -128,7 +122,7 @@ t_inter	cylinder_color(t_scene s)
 {
 	t_inter	inter;
 
-	inter.t = 2147483647;
+	inter.t = -1;
 	if (cy_inter(s, &inter))
 	{
 		inter.color = s.cylinders[inter.i].color;

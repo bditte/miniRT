@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/22 01:13:09 by bditte            #+#    #+#             */
-/*   Updated: 2020/06/29 17:32:53 by bditte           ###   ########.fr       */
+/*   Updated: 2020/10/10 15:49:26 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,6 @@ void                    parse_sq(char *line, t_scene *scene)
 			n++;	
 		}
 	}
-	vec_display(tab[2]);
 	*scene->squares = create_sq(tab[0], tab[1], height, conv_color(tab[2]));
 	scene->squares++;
 }

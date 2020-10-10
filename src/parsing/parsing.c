@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/22 00:47:20 by bditte            #+#    #+#             */
-/*   Updated: 2020/10/06 13:05:40 by bditte           ###   ########.fr       */
+/*   Updated: 2020/10/10 19:45:24 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	set_to_zero(t_scene *scene)
 	scene->nbcams = 0;
 	scene->data.r = 0;
 	scene->data.a = 0;
+	scene->current_cam = 0;
 }
 
 void	count_objects(char *file, t_scene *scene)

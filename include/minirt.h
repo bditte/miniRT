@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 20:41:42 by bditte            #+#    #+#             */
-/*   Updated: 2020/10/05 16:22:37 by bditte           ###   ########.fr       */
+/*   Updated: 2020/10/10 19:18:47 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include "intersection.h"
 # include "lighting.h"
 # include "image.h"
+# include "key.h"
 
 # include "plane.h"
 # include "sphere.h"

@@ -6,12 +6,11 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 00:09:50 by bditte            #+#    #+#             */
-/*   Updated: 2020/10/06 13:09:16 by bditte           ###   ########.fr       */
+/*   Updated: 2020/10/10 20:00:58 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
 
 void	scene_error(int n)
 {
@@ -33,14 +32,14 @@ void	scene_error(int n)
 		ft_putstr("Error -16: Atleast one camera is required.\n");
 }
 
-int     error(int n)
+int		error(int n)
 {
 	if (n <= -10)
 		scene_error(n);
 	if (n == -1)
 		ft_putstr("Error -1: Can not find scene file.\n");
-        if (n == -2)
-                ft_putstr("Error -2: Invalid scene data.\n");
+	if (n == -2)
+		ft_putstr("Error -2: Invalid scene data.\n");
 	if (n == -3)
 		ft_putstr("Error -3: Memory allocation issue.\n");
 	if (n == -4)

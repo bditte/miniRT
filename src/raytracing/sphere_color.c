@@ -66,11 +66,9 @@ float   hit_sp(t_sphere s, t_ray r, t_inter *local)
 
 int     sp_inter(t_scene s, t_inter *inter)
 {
-        float t_min;
         t_inter local;
-        int has_inter;
+        int	has_inter;
 
-        t_min = 2147513;
         local.i = 0;
         has_inter = 0;
         while (local.i < s.nbspheres)
@@ -79,11 +77,8 @@ int     sp_inter(t_scene s, t_inter *inter)
                 if (local.t > 0.0)
                 {
                         has_inter = 1;
-                        if (local.t < t_min)
-                        {
-                                t_min = local.t;
+                        if (local.t < inter->t || inter->t == -1)
                                 *inter = local;
-                        }
                 }
                 local.i++;
         }
@@ -95,6 +90,7 @@ t_inter	sphere_color(t_scene s)
 	t_inter	 inter;
 	int has_inter;
 
+	inter.t = -1;
         has_inter = sp_inter(s, &inter);
 	if (has_inter)
         {

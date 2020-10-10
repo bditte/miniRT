@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/18 20:49:18 by bditte            #+#    #+#             */
-/*   Updated: 2020/10/06 12:55:09 by bditte           ###   ########.fr       */
+/*   Updated: 2020/10/10 19:45:04 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef	struct	s_scene
 	t_ray			r;
 	t_cam			*cams;
 	int				nbcams;
+	int				current_cam;
 	t_square		*squares;
 	int				nbsquares;
 	t_cylinder		*cylinders;

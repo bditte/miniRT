@@ -21,6 +21,7 @@ LIBMLX =		-L /usr/lib -lm -lbsd -lX11 -lXext
 SAVE =			-fsanitize=address
 
 SRC =			main.c \
+				key/handle_key.c \
 				image/bmp.c \
 				image/image.c \
 				maths/vector.c \

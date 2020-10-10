@@ -50,8 +50,10 @@ int	tr_inter(t_scene s, t_inter *inter)
 		if (hit_tr(s.r, s.triangles[local.i], &local) == 1)
 		{
 			res = 1;
-			if (local.t < inter->t)
+			if (local.t < inter->t || inter->t == -1)
+			{
 				*inter = local;
+			}
 		}
 		local.i++;
 	}
@@ -62,14 +64,12 @@ t_inter		triangle_color(t_scene s)
 {
 	t_inter		inter;
 
-	inter.t = 2147483647;	
+	inter.t = -1;	
 	if (tr_inter(s, &inter))
 	{
-		inter.color = s.triangles[inter.i].color;//result = lighting(r, s, inter);//s.triangles[inter.i].color;
+		inter.color = s.triangles[inter.i].color;
 		inter.type = 2;
 		inter.point = s.triangles[inter.i].a;
 	}
-	else
-		inter.t = -1;
 	return (inter);
 }

@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/18 21:10:19 by bditte            #+#    #+#             */
-/*   Updated: 2020/09/28 14:13:49 by bditte           ###   ########.fr       */
+/*   Updated: 2020/10/10 20:01:03 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_inter		triangle_color(t_scene s);
 t_inter		sphere_color(t_scene s);
 void		assign_inter(t_inter src, t_inter *dst);
 t_inter		intersections(t_scene s);
+void		display(t_scene *s);
 t_ray		get_dir(t_scene s, float x, float y, t_cam cam);
 #endif
 
