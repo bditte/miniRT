@@ -41,7 +41,7 @@ Every scene file requires a single **resolution** and a single **ambient light**
 `l` : light spot argument `0.5,1,0` three floats : light position `1` one float **[0;1]** : light intensity `255,255,255` three floats : light color (RGB).
 
 ##### Sphere
-'sp 1,0,2 0.5 255,0,0`
+`sp 1,0,2 0.5 255,0,0`
 
 `sp` : sphere argument `1,0,2` three floats : sphere center postion `0.5` one float : sphere diameter `255,0,0` three floats : sphere color (RGB).
 
