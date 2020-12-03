@@ -6,116 +6,89 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/22 00:47:20 by bditte            #+#    #+#             */
-/*   Updated: 2020/10/10 19:45:24 by bditte           ###   ########.fr       */
+/*   Updated: 2020/11/30 19:59:19 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	set_to_zero(t_scene *scene)
+void	count_objects(int fd, t_scene *scene)
 {
-	scene->nbspheres = 0;
-	scene->nbplanes = 0;
-	scene->nbtriangles = 0;
-	scene->nbcylinders = 0;
-	scene->nblights = 0;
-	scene->nbsquares = 0;
-	scene->nbcams = 0;
-	scene->data.r = 0;
-	scene->data.a = 0;
-	scene->current_cam = 0;
-}
+	char	*l;
 
-void	count_objects(char *file, t_scene *scene)
-{
-	int		fd;
-	char	*line;
-
-	set_to_zero(scene);
-	fd = open(file, O_RDONLY);
-	if (fd < 0)
-		error(-1);
-	while (get_next_line(fd, &line))
+	while (get_next_line(fd, &l))
 	{
-		if (line[0] == 's')
-		{
-			if (line[1] == 'p')
-				scene->nbspheres++;
-			if (line[1] == 'q')
-				scene->nbsquares++;
-
-		}
-		if (line[0] == 'p' && line[1] == 'l')
+		if (l[0] == 's' && l[1] == 'p' && ft_isspace(l[2]))
+			scene->nbspheres++;
+		else if (l[0] == 's' && l[1] == 'q' && ft_isspace(l[2]))
+			scene->nbsquares++;
+		else if (l[0] == 'p' && l[1] == 'l' && ft_isspace(l[2]))
 			scene->nbplanes++;
-		if (line[0] == 't' && line[1] == 'r')
+		else if (l[0] == 't' && l[1] == 'r' && ft_isspace(l[2]))
 			scene->nbtriangles++;
-		if (line[0] == 'c' )
-		{
-			if (line[1] == 'y')
-				scene->nbcylinders++;
-			if (ft_isspace(line[1]))
-				scene->nbcams++;
-		}
-		if (line[0] == 'l' && ft_isspace(line[1]))
+		else if (l[0] == 'c' && l[1] == 'y' && ft_isspace(l[2]))
+			scene->nbcylinders++;
+		else if (l[0] == 'c' && ft_isspace(l[1]))
+			scene->nbcams++;
+		else if (l[0] == 'l' && ft_isspace(l[1]))
 			scene->nblights++;
-		free(line);
+		if (check_id(l))
+			error(-2);
+		free(l);
 	}
-	free(line);
+	free(l);
 	close(fd);
 }
 
-void	scene_init(t_scene *scene)
+void	scene_init(t_scene *s)
 {
-	if (!(scene->spheres = malloc(sizeof(t_sphere) * scene->nbspheres)))
-		error(-3);
-	if (!(scene->planes = malloc(sizeof(t_plane) * scene->nbplanes)))
-		error(-3);
-	if (!(scene->triangles = malloc(sizeof(t_triangle) * scene->nbtriangles)))
-		error(-3);
-	if (!(scene->cylinders = malloc(sizeof(t_cylinder) * scene->nbcylinders)))
-		error(-3);
-	if (!(scene->lights = malloc(sizeof(t_light) * scene->nblights)))
-		error(-3);
-	if (!(scene->squares = malloc(sizeof(t_square) * scene->nbsquares)))
-		error(-3);
-	if (!(scene->cams = malloc(sizeof(t_cam) * scene->nbcams)))
-		error(-3);
+	if (s->nbspheres)
+		if (!(s->spheres = malloc(sizeof(t_sphere) * s->nbspheres)))
+			error(-3);
+	if (s->nbplanes)
+		if (!(s->planes = malloc(sizeof(t_plane) * s->nbplanes)))
+			error(-3);
+	if (s->nbtriangles)
+		if (!(s->triangles = malloc(sizeof(t_triangle) * s->nbtriangles)))
+			error(-3);
+	if (s->nbcylinders)
+		if (!(s->cylinders = malloc(sizeof(t_cylinder) * s->nbcylinders)))
+			error(-3);
+	if (s->nblights)
+		if (!(s->lights = malloc(sizeof(t_light) * s->nblights)))
+			error(-3);
+	if (s->nbsquares)
+		if (!(s->squares = malloc(sizeof(t_square) * s->nbsquares)))
+			error(-3);
+	if (s->nbcams)
+		if (!(s->cams = malloc(sizeof(t_cam) * s->nbcams)))
+			error(-3);
 }
 
 void	check_flags(char *line, t_scene *scene)
 {
+	char **tab;
+
+	tab = ft_split(line, 2, '\t', ' ');
 	if (line[0] == 'R' && ft_isspace(line[1]))
-	{
-		if (scene->data.r)
-			error(-111);
-		parse_r(line, scene);
-	}
-	else if(line[0] == 'A' && ft_isspace(line[1]))
-	{
-		if (scene->data.a)
-			error(-112);	
-		parse_a(line, scene);
-	}
+		parse_r(tab, scene);
+	else if (line[0] == 'A' && ft_isspace(line[1]))
+		parse_a(tab, scene);
 	else if (line[0] == 'l' && ft_isspace(line[1]))
-		parse_l(line, scene);
-	else if (line[0] == 's')
-	{
-		if (line[1] == 'p' && ft_isspace(line[2]))
-			parse_sp(line, scene);
-		if (line[1] == 'q' && ft_isspace(line[2]))
-			parse_sq(line, scene);
-	}
+		parse_l(tab, scene);
+	else if (line[0] == 's' && line[1] == 'p' && ft_isspace(line[2]))
+		parse_sp(tab, scene);
+	else if (line[0] == 's' && line[1] == 'q' && ft_isspace(line[2]))
+		parse_sq(tab, scene);
 	else if (line[0] == 'p' && line[1] == 'l' && ft_isspace(line[2]))
-		parse_pl(line, scene);
+		parse_pl(tab, scene);
 	else if (line[0] == 't' && line[1] == 'r' && ft_isspace(line[2]))
-		parse_tr(line, scene);
-	else if (line[0] == 'c' )
-	{
-		if (line[1] == 'y' && ft_isspace(line[2]))
-			parse_cy(line, scene);
-		if (ft_isspace(line[1]))
-			parse_c(line, scene);
-	}
+		parse_tr(tab, scene);
+	else if (line[0] == 'c' && line[1] == 'y' && ft_isspace(line[2]))
+		parse_cy(tab, scene);
+	else if (line[0] == 'c' && ft_isspace(line[1]))
+		parse_c(tab, scene);
+	ft_free(tab);
 	free(line);
 }
 
@@ -125,15 +98,18 @@ int		parse(int ac, char **av, t_scene *scene)
 	char	*line;
 
 	fd = get_fd(ac, av, scene);
-	count_objects(av[1], scene);
+	set_to_zero(scene);
+	count_objects(fd, scene);
+	fd = get_fd(ac, av, scene);
 	scene_init(scene);
 	while (get_next_line(fd, &line) == 1)
 		check_flags(line, scene);
+	close(fd);
 	free(line);
 	if (!scene->data.a || !scene->data.r)
 		error(-14);
 	if (!scene->nbcams)
-		error(-16);	
+		error(-16);
 	scene->spheres -= scene->nbspheres;
 	scene->planes -= scene->nbplanes;
 	scene->triangles -= scene->nbtriangles;

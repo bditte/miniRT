@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/18 20:41:03 by bditte            #+#    #+#             */
-/*   Updated: 2020/10/10 14:14:19 by bditte           ###   ########.fr       */
+/*   Updated: 2020/11/28 21:39:03 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct	s_ray
 {
 	t_vector	o;
 	t_vector	dir;
+	int			type;
 }				t_ray;
 
 t_vector		vec_create(float x, float y, float z);
@@ -37,6 +38,7 @@ t_vector		vec_add(t_vector vec1, t_vector vec2);
 t_vector		vec_multiply_t(float t, t_vector vec);
 t_vector		vec_multi(t_vector a, t_vector b);
 void			vec_display(t_vector vec);
+int				vec_cmp(t_vector v1, t_vector v2);
 t_vector		make_unit_vec(t_vector vec);
 float			dot(t_vector vec1, t_vector vec2);
 t_vector		vec_sub(t_vector vec1, t_vector vec2);

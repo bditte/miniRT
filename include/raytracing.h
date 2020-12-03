@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/18 21:10:19 by bditte            #+#    #+#             */
-/*   Updated: 2020/10/10 20:01:03 by bditte           ###   ########.fr       */
+/*   Updated: 2020/12/02 16:13:26 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,14 @@
 
 # include "minirt.h"
 
-t_inter		cylinder_color(t_scene s);
-t_inter		plane_color(t_scene s);
-t_inter		square_color(t_scene s);
-int			pl_inter(t_scene s, t_inter *inter);
-int			sp_inter(t_scene s, t_inter *inter);
-t_vector	raytrace(t_scene s);
-t_inter		triangle_color(t_scene s);
-t_inter		sphere_color(t_scene s);
-void		assign_inter(t_inter src, t_inter *dst);
+t_inter		ray_cylinder(t_scene s);
+t_inter		ray_plane(t_scene s);
+t_inter		ray_square(t_scene s);
+t_inter		ray_triangle(t_scene s);
+t_inter		ray_sphere(t_scene s);
+t_vector	trace_ray(t_scene s);
 t_inter		intersections(t_scene s);
 void		display(t_scene *s);
-t_ray		get_dir(t_scene s, float x, float y, t_cam cam);
+t_vector	get_dir(t_scene s, float x, float y, t_cam cam);
+t_vector	get_color(t_scene s, t_inter inter);
 #endif
-
-

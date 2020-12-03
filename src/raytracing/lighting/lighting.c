@@ -6,76 +6,68 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/20 16:50:07 by bditte            #+#    #+#             */
-/*   Updated: 2020/10/10 18:32:00 by bditte           ###   ########.fr       */
+/*   Updated: 2020/12/02 16:11:41 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_vector	get_plane_n(t_vector vec_l, t_vector n)
+int			is_shadow(t_scene s, t_inter inter, t_vector vec_l,
+				float dist)
 {
-	float norm1;
+	t_inter		l_inter;
 
-	norm1 = getnorme2(vec_l);
-	if (getnorme2(vec_add(vec_l, vec_multiply_t(0.01, n))) < norm1)
-		return (vec_multiply_t(-1, n));
-	return (vec_multiply_t(1, n));
-}
-
-void		get_shadows(t_scene s, t_inter inter, t_vector vec_l, t_inter *l_inter)
-{
-	t_vector	offset;
-
-	if (inter.type == PLANE || inter.type == SQUARE)
-		inter.n = get_plane_n(vec_l, inter.n);
-	offset = vec_multiply_t(0.01, inter.n);
-	s.r = ray_init(vec_add(inter.p, offset), vec_normalize(vec_l));
-	*l_inter = intersections(s);
+	s.r = ray_init(vec_add(inter.p, vec_multiply_t(0.01, inter.n))
+			, vec_normalize(vec_l));
+	l_inter = intersections(s);
+	if (l_inter.t > 0 && l_inter.t < dist)
+		return (1);
+	return (0);
 }
 
 t_vector	apply_ambient(t_scene s, t_inter inter)
 {
 	t_vector	color;
-	t_vector	tmp;
-	
-	tmp = vec_multiply_t(s.ambient_int / 100000, s.ambient_color);
-	color = vec_multi(inter.color, tmp);
+
+	color = vec_multiply_t(s.ambient_int / 6, s.ambient_color);
+	color = vec_multi(inter.color, color);
 	return (color);
 }
-t_vector	get_color(t_scene s, t_inter inter, t_vector color, t_inter *l_inter)
+
+t_vector	apply_light(t_scene s, t_light l, t_inter inter)
 {
-	int		i;
-	float		ratio;
-	float		d_light2;
-	t_vector	l_color;
+	t_vector	res;
 	t_vector	vec_l;
-	
+	float		dist;
+	float		ratio;
+
+	vec_l = vec_sub(l.pos, inter.p);
+	dist = sqrt(getnorme2(vec_l));
+	vec_normalize(vec_l);
+	if (is_shadow(s, inter, vec_l, dist))
+		return (vec_init(0, 0, 0));
+	ratio = dot(vec_l, inter.n);
+	if (inter.type == SQUARE)
+		ratio = fabs(ratio);
+	if (ratio < 0)
+		return (vec_init(0, 0, 0));
+	ratio *= l.ratio * 10;
+	ratio /= 2 * PI * powf(dist, 2);
+	res = vec_multi(l.color, inter.color);
+	res = vec_multiply_t(ratio, res);
+	return (res);
+}
+
+t_vector	get_color(t_scene s, t_inter inter)
+{
+	int			i;
+	t_vector	color;
+
 	i = -1;
+	color = vec_init(0, 0, 0);
 	color = apply_ambient(s, inter);
 	while (++i < s.nblights)
-	{
-		vec_l = vec_sub(s.lights[i].pos, inter.p);
-		d_light2 = getnorme2(vec_l);
-		get_shadows(s, inter, vec_l, l_inter);
-		if (l_inter->t > 0 && (l_inter->t * l_inter->t < d_light2))
-		{
-			//printf("1st pl : %d  t %f 2nd pl %d\n", inter.i, l_inter->t, l_inter->i);
-			//printf("l_type :%d l_i : %d type : %d i : %d\n", l_inter->type, l_inter->i, inter.type, inter.i);
-			continue;
-		}
-		l_color = vec_multi(s.lights[i].color, inter.color); 
-		ratio = ft_max(0, dot(vec_normalize(vec_l), inter.n)) / d_light2;
-		color = vec_add(vec_multiply_t(ratio * s.lights[i].ratio, l_color), color);
-	}
-	color = vec_multiply_t(500000000, color);
+		color = vec_add(color, apply_light(s, s.lights[i], inter));
+	color = vec_multiply_t(255, color);
 	return (color);
-}
-
-t_vector	lighting(t_scene s, t_inter inter)
-{	t_inter		light_inter;
-	t_vector 	color;
-
-	if (inter.type == CYLINDER)
-	color = vec_init(0,0,0);
-	return (get_color(s, inter, color, &light_inter));
 }
