@@ -1,40 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_utils2.c                                   :+:      :+:    :+:   */
+/*   vector_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/21 23:42:54 by bditte            #+#    #+#             */
-/*   Updated: 2020/10/05 16:09:34 by bditte           ###   ########.fr       */
+/*   Created: 2020/11/26 18:02:08 by bditte            #+#    #+#             */
+/*   Updated: 2020/12/02 16:11:59 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int	ft_isdigit(char c)
+t_vector	vec_init(float x, float y, float z)
 {
-	if (48 <= c && c <= 57)
-		return (1);
-	return (0);
+	t_vector vec;
+
+	vec.x = x;
+	vec.y = y;
+	vec.z = z;
+	return (vec);
 }
 
-int	parse_int(char *line, int *i)
+int			vec_cmp(t_vector v1, t_vector v2)
 {
-	int		j;
-	char	*res;
-
-	j = 0;
-	while (48 <= line[*i] && line[(*i)++] <= 57)
-		j++;
-	if (!(res = malloc(sizeof(char) * j + 1)))
-		return (error(-3));
-	*i -= j;
-	j = 0;
-	while (48 <= line[*i] && line[*i] <= 57)
-		res[j++] = line[(*i)++];
-	res[j] = '\0';
-	j = ft_atoi(res);
-	free(res);
-	return (j);
+	if (v1.x == v2.x && v1.y == v2.y && v1.z == v2.z)
+		return (1);
+	return (0);
 }

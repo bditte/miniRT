@@ -1,55 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   free_scene.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/23 00:09:54 by bditte            #+#    #+#             */
-/*   Updated: 2020/10/05 16:18:27 by bditte           ###   ########.fr       */
+/*   Created: 2020/11/30 18:01:37 by bditte            #+#    #+#             */
+/*   Updated: 2020/12/01 16:48:32 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int	ft_strcmp(char *s1, char *s2)
+void	free_scene(t_scene *s)
 {
-	int i;
-
-	i = 0;
-	while (s1[i] && s2[i])
-		i++;
-	return (s1[i] - s2[i]);
-}
-
-void	ft_putstr(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		write(1, &str[i++], 1);
-}
-
-int	ft_atoi(char *str)
-{
-	int	res;
-	int	sign;
-	int 	i;
-
-	res = 0;
-	i = 0;
-	sign = 1;
-	if (str[i] == '-')
-	{
-		sign = -1;
-		i++;
-	}
-	while (str[i])
-	{
-		res = res * 10 + (str[i] - 48);
-		i++;
-	}
-	return (res * sign);
-
+	if (s->nblights > 0)
+		free(s->lights);
+	if (s->nbtriangles > 0)
+		free(s->triangles);
+	if (s->nbplanes > 0)
+		free(s->planes);
+	if (s->nbspheres > 0)
+		free(s->spheres);
+	if (s->nbcylinders > 0)
+		free(s->cylinders);
+	if (s->nbsquares > 0)
+		free(s->squares);
+	if (s->nbcams > 0)
+		free(s->cams);
 }

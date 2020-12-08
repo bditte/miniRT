@@ -1,32 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   camera.c                                           :+:      :+:    :+:   */
+/*   pixel_put.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/09/21 12:23:53 by bditte            #+#    #+#             */
-/*   Updated: 2020/09/24 17:13:51 by bditte           ###   ########.fr       */
+/*   Created: 2020/11/30 22:12:49 by bditte            #+#    #+#             */
+/*   Updated: 2020/12/01 16:15:22 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	update_orient(t_camera *cam)
+void	my_pixel_put(t_data *data, int x, int y, int color)
 {
-	cam->orient = vec_multiply_t(cam->forward, -1);
-}
+	char	*dst;
 
-t_cam	cam_update_forward(t_camera *cam)
-{
-	t_vector base;
-
-	if (cam->forward.y == -1)
-		base = vec_new(1,0,0);
-	else
-		base = vec_new(0,1,0);
-	cam->right = vec_normalize(cross(base, cam->forward));
-	cam->up = vec_normlaize(cross(cam->forward, cam->right));
-	update_orient(cam);
-	return (*cam);
+	dst = data->addr + (y * data->line_length + x * (data->bpp / 8));
+	*(unsigned int *)dst = color;
 }

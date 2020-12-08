@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/12 20:13:18 by ahallain          #+#    #+#             */
-/*   Updated: 2020/06/24 21:22:08 by bditte           ###   ########.fr       */
+/*   Created: 2020/12/02 16:21:26 by bditte            #+#    #+#             */
+/*   Updated: 2020/12/02 16:23:56 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <unistd.h>
 
 int		ft_strcchr(char *src, int c);
-size_t	ft_strlen(char *src, int c);
+size_t	ft_strlenc(char *src, int c);
 char	*ft_stradd(char **dst, char *str);
 char	*ft_firstchr(char *src, int c);
 char	*ft_chrmove(char **dst, int c);

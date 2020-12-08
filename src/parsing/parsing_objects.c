@@ -6,143 +6,120 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/22 01:13:09 by bditte            #+#    #+#             */
-/*   Updated: 2020/10/10 15:49:26 by bditte           ###   ########.fr       */
+/*   Updated: 2020/12/08 14:46:31 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	parse_pl(char *line, t_scene *scene)
+void	parse_pl(char **line, t_scene *scene)
 {
-	int			i;
-	int			n;
-	t_vector	c;
-	t_vector	normal;
-	t_vector	color;
+	t_plane	pl;
 
-	n = 0;
-	i = 0;
-	while (line[i] && n < 3)
-	{
-		if (ft_iscoord(line[i]))
-		{
-			if (n == 0)
-				c = parse_vec(line, &i);
-			else if (n == 1)
-				normal = parse_vec(line, &i);
-			else
-				color = conv_color(parse_vec(line, &i));
-			n++;
-		}
-		i++;
-	}
-	*scene->planes = create_plane(c, normal, color);
+	if (nb_elem(line) != 4)
+		error(-20);
+	if (!ft_isvec(line[1]) || !ft_isvec(line[2])
+		|| !ft_iscolor(line[3]))
+		error(-20);
+	pl.c = parse_vec(line[1]);
+	pl.n = parse_vec(line[2]);
+	pl.color = conv_color(parse_vec(line[3]));
+	*scene->planes = pl;
 	scene->planes++;
 }
 
-void	parse_tr(char *line, t_scene *scene)
+void	parse_tr(char **line, t_scene *scene)
 {
-	int			i;
-	int			n;
-	t_vector	tab[4];
+	t_triangle	tr;
 
-	n = 0;
-	i = 0;
-	while (line[i] && n < 4)
-	{
-		if (ft_iscoord(line[i]))
-		{
-			if (n < 4)
-				tab[n] = parse_vec(line, &i);
-			else
-				error(-2);
-			n++;
-		}
-		i++;
-	}
-	*scene->triangles = create_tr(tab[0], tab[1], tab[2], conv_color(tab[3]));
+	if (nb_elem(line) != 5)
+		error(-21);
+	if (!ft_isvec(line[1]) || !ft_isvec(line[2])
+		|| !ft_isvec(line[3]) || !ft_iscolor(line[4]))
+		error(-21);
+	tr.a = parse_vec(line[1]);
+	tr.b = parse_vec(line[2]);
+	tr.c = parse_vec(line[3]);
+	tr.color = conv_color(parse_vec(line[4]));
+	tr.n = vec_normalize(cross(vec_sub(tr.b, tr.a), vec_sub(tr.c, tr.a)));
+	*scene->triangles = tr;
 	scene->triangles++;
 }
 
-void	parse_cy(char *line, t_scene *scene)
+void	parse_cy(char **line, t_scene *scene)
 {
-	t_vector	vec[3];
-	float		nb[2];
-	int			n;
-	int			i;
+	t_cylinder	cyl;
 
-	i = 0;
-	n = 0;
-	while (line[i])
-	{
-		if (ft_iscoord(line[i]))
-		{
-			if (n < 2)
-				vec[n] = parse_vec(line, &i);
-			else if (n < 4)
-				nb[n - 2] = parse_float(line, &i);
-			else if (n == 4)
-				vec[2] = conv_color(parse_vec(line, &i));
-			else
-				error(-2);
-			n++;
-		}
-		i++;
-	}
-	*scene->cylinders = create_cy(vec[0], vec[1], nb[0], nb[1], vec[2]);
+	if (nb_elem(line) != 6)
+		error(-22);
+	if (!ft_isvec(line[1]) || !ft_isvec(line[2])
+		|| !ft_isfloat(line[3]) || !ft_isfloat(line[4])
+		|| !ft_iscolor(line[5]))
+		error(-22);
+	cyl.c = parse_vec(line[1]);
+	cyl.axis = parse_vec(line[2]);
+	cyl.r = ft_atof(line[3]) / 2;
+	cyl.h = ft_atof(line[4]);
+	if (cyl.h < 0 || cyl.r < 0)
+		error(-22);
+	cyl.color = conv_color(parse_vec(line[5]));
+	*scene->cylinders = cyl;
 	scene->cylinders++;
 }
 
-void	parse_sp(char *line, t_scene *scene)
+void	parse_sp(char **line, t_scene *scene)
 {
-	int			i;
-	int			n;
-	t_vector	c;
-	t_vector	color;
-	float		r;
+	t_sphere	sp;
 
-	n = 0;
-	i = 0;
-	while (line[i] && n < 3)
-	{
-		if (ft_iscoord(line[i]))
-		{
-			if (n == 0)
-				c = parse_vec(line, &i);
-			else if (n == 1)
-				r = parse_float(line, &i) / 2;
-			else if (n == 2)
-				color = conv_color(parse_vec(line, &i));
-			n++;
-		}
-		i++;
-	}
-	*scene->spheres = create_sphere(c, r, color);
+	if (nb_elem(line) != 4)
+		error(-23);
+	if (!ft_isvec(line[1]) || !ft_isfloat(line[2])
+		|| !ft_iscolor(line[3]))
+		error(-23);
+	sp.c = parse_vec(line[1]);
+	sp.r = ft_atof(line[2]) / 2;
+	sp.albedo = conv_color(parse_vec(line[3]));
+	if (sp.r <= 0)
+		error(-23);
+	*scene->spheres = sp;
 	scene->spheres++;
 }
 
-void                    parse_sq(char *line, t_scene *scene)
+void	parse_sq(char **line, t_scene *scene)
 {
-	t_vector	tab[3];
-	float		height;
-	int			i;
-	int 			n;
+	t_square	sq;
 
-	n = 0;
-	i = 1;
-	while (line[++i])
-	{
-		if (ft_iscoord(line[i]))
-		{
-			if (n < 2)
-				tab[n] = parse_vec(line, &i);
-			if (n == 2)
-				height = parse_float(line, &i);
-			else
-				tab[2] = parse_vec(line, &i);
-			n++;	
-		}
-	}
-	*scene->squares = create_sq(tab[0], tab[1], height, conv_color(tab[2]));
+	if (nb_elem(line) != 5)
+		error(-24);
+	if (!ft_isvec(line[1]) || !ft_isvec(line[2])
+		|| !ft_isfloat(line[3]) || !ft_iscolor(line[4]))
+		error(-24);
+	sq.c = parse_vec(line[1]);
+	sq.axis = parse_vec(line[2]);
+	sq.height = ft_atof(line[3]);
+	if (sq.height < 0)
+		error(-24);
+	sq.color = conv_color(parse_vec(line[4]));
+	*scene->squares = sq;
 	scene->squares++;
 }
+
+void	parse_ds(char **line, t_scene *scene)
+{
+	t_disk	ds;
+	
+	if (nb_elem(line) != 5)
+		error(-25);
+	if (!ft_isvec(line[1]) || !ft_isvec(line[2])
+		|| !ft_isfloat(line[3]) || !ft_iscolor(line[4]))
+		error(-25);
+	ds.c = parse_vec(line[1]);
+	ds.n = parse_vec(line[2]);
+	ds.r = ft_atof(line[3]);
+	ds.color = conv_color(parse_vec(line[4]));
+	if (ds.r < 0)
+		error(-25);
+	*scene->disks = ds;
+	scene->disks++;
+}
+

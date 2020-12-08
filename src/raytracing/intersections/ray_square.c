@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   square_color.c                                     :+:      :+:    :+:   */
+/*   ray_square.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 19:03:46 by bditte            #+#    #+#             */
-/*   Updated: 2020/10/10 15:46:06 by bditte           ###   ########.fr       */
+/*   Updated: 2020/11/30 16:11:41 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int	hit_sq(t_ray r, t_square sq, t_inter *inter)
+int		hit_sq(t_ray r, t_square sq, t_inter *inter)
 {
-	t_vector sol;
-	t_vector d;
-	float	t1;
-	float	t2;
+	t_vector	sol;
+	t_vector	d;
+	float		t1;
+	float		t2;
 
 	sol.x = dot(vec_sub(r.o, sq.c), sq.axis);
 	sol.y = dot(r.dir, sq.axis);
@@ -35,10 +35,10 @@ int	hit_sq(t_ray r, t_square sq, t_inter *inter)
 		inter->p = vec_add(r.o, vec_multiply_t(t1, r.dir));
 		return (1);
 	}
-	return (0);	
+	return (0);
 }
 
-int	sq_inter(t_scene s, t_inter *inter)
+int		sq_inter(t_scene s, t_inter *inter)
 {
 	int		res;
 	t_inter	local;
@@ -57,10 +57,10 @@ int	sq_inter(t_scene s, t_inter *inter)
 	return (res);
 }
 
-t_inter		square_color(t_scene s)
+t_inter	ray_square(t_scene s)
 {
-	t_inter 	inter;
-	
+	t_inter	inter;
+
 	inter.t = -1;
 	inter.i = 0;
 	if (sq_inter(s, &inter))
@@ -68,5 +68,5 @@ t_inter		square_color(t_scene s)
 		inter.color = s.squares[inter.i].color;
 		inter.type = SQUARE;
 	}
-	return (inter);	
+	return (inter);
 }

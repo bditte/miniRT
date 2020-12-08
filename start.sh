@@ -1,1 +1,1 @@
-clear && make && make clean && ./miniRT scene.rt -save 
+clear && make && make clean && ./miniRT scenes/scene.rt -save 

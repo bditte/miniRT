@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   color.c                                            :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/18 12:34:49 by bditte            #+#    #+#             */
-/*   Updated: 2020/10/10 18:30:54 by bditte           ###   ########.fr       */
+/*   Created: 2020/06/23 00:09:54 by bditte            #+#    #+#             */
+/*   Updated: 2020/11/28 21:40:07 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_vector        color_average(t_vector color1, t_vector color2)
+int	ft_strcmp(char *s1, char *s2)
 {
-        t_vector result;
+	int i;
 
-        result.x = color1.x * color2.x;
-        result.y = color1.y * color2.y;
-        result.z = color1.z * color2.z;
-        return (result);
+	i = 0;
+	while (s1[i] && s2[i])
+		i++;
+	return (s1[i] - s2[i]);
 }

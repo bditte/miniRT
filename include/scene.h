@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/18 20:49:18 by bditte            #+#    #+#             */
-/*   Updated: 2020/10/10 19:45:04 by bditte           ###   ########.fr       */
+/*   Updated: 2020/12/08 14:20:01 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include "light.h"
 # include "data.h"
 # include "camera.h"
+# include "disk.h"
 
 typedef	struct	s_scene
 {
@@ -39,6 +40,8 @@ typedef	struct	s_scene
 	int				nbplanes;
 	t_triangle		*triangles;
 	int				nbtriangles;
+	t_disk			*disks;
+	int				nbdisks;
 	t_light			*lights;
 	int				nblights;
 	t_vector		l_position;
@@ -46,6 +49,6 @@ typedef	struct	s_scene
 	float			ambient_int;
 	t_vector		ambient_color;
 	t_data			data;
-	int			save_bmp;
+	int				save_bmp;
 }				t_scene;
 #endif

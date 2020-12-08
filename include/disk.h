@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   camera.h                                           :+:      :+:    :+:   */
+/*   disk.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/25 18:57:12 by bditte            #+#    #+#             */
-/*   Updated: 2020/11/30 18:39:59 by bditte           ###   ########.fr       */
+/*   Created: 2020/12/08 14:10:22 by bditte            #+#    #+#             */
+/*   Updated: 2020/12/08 14:17:17 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CAMERA_H
-# define CAMERA_H
+#ifndef DISK_H
+# define DISK_H
 
-# include "vector.h"
-
-typedef	struct	s_cam
+typedef	struct	s_disk
 {
-	t_vector	pos;
-	t_vector	axis;
-	t_vector	forward;
-	t_vector	up;
-	t_vector	right;
-	int			fov;
-	float		camtoworld[4][4];
-}				t_cam;
+	t_vector	c;
+	t_vector	n;
+	float		r;
+	t_vector	color;
+}		t_disk;
 
-t_cam			create_cam(t_vector pos, t_vector axis, int fov);
 #endif
