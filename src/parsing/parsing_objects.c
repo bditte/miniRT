@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/22 01:13:09 by bditte            #+#    #+#             */
-/*   Updated: 2020/12/08 14:46:31 by bditte           ###   ########.fr       */
+/*   Updated: 2020/12/09 12:00:25 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	parse_sq(char **line, t_scene *scene)
 void	parse_ds(char **line, t_scene *scene)
 {
 	t_disk	ds;
-	
+
 	if (nb_elem(line) != 5)
 		error(-25);
 	if (!ft_isvec(line[1]) || !ft_isvec(line[2])

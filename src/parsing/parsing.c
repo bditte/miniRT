@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/22 00:47:20 by bditte            #+#    #+#             */
-/*   Updated: 2020/12/08 14:42:51 by bditte           ###   ########.fr       */
+/*   Updated: 2020/12/16 18:36:51 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ int		parse(int ac, char **av, t_scene *scene)
 	scene->triangles -= scene->nbtriangles;
 	scene->cylinders -= scene->nbcylinders;
 	scene->squares -= scene->nbsquares;
+	scene->disks -= scene->nbdisks;
 	scene->lights -= scene->nblights;
 	scene->cams -= scene->nbcams;
 	return (1);
