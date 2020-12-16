@@ -6,23 +6,23 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 14:22:52 by bditte            #+#    #+#             */
-/*   Updated: 2020/12/16 18:36:38 by bditte           ###   ########.fr       */
+/*   Updated: 2020/12/16 19:16:00 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int	hit_ds(t_ray r, t_disk ds, t_inter inter)
+int	hit_ds(t_ray r, t_disk ds, t_inter *inter)
 {
 	t_plane		pl;
 	t_vector	pc;
 
 	pl.n = ds.n;
 	pl.c = ds.c;
-	if (!hit_pl(pl, r, &inter))
+	if (!hit_pl(pl, r, inter))
 		return (0);
-	pc = vec_sub(inter.p, ds.c);
-	if (!(sqrt(getnorme2(pc)) <= ds.r))
+	pc = vec_sub(inter->p, ds.c);
+	if ((sqrt(getnorme2(pc)) > ds.r))
 		return (0);
 	return (1);
 }
@@ -36,7 +36,7 @@ int	ds_inter(t_scene s, t_inter *inter)
 	local_inter.i = 0;
 	while (local_inter.i < s.nbdisks)
 	{
-		if (hit_ds(s.r, s.disks[local_inter.i], local_inter))
+		if (hit_ds(s.r, s.disks[local_inter.i], &local_inter))
 		{
 			has_inter = 1;
 			if (local_inter.t < inter->t || inter->t == -1)
@@ -54,10 +54,8 @@ t_inter	ray_disk(t_scene s)
 	inter.t = -1;
 	if (ds_inter(s, &inter))
 	{
-		printf("%f\n", inter.t);
 		inter.color = s.disks[inter.i].color;
 		inter.type = DISK;
-		//inter.p = vec_add(s.r.o, vec_multiply_t(inter.t, s.r.dir));
 	}
 	return (inter);
 	
