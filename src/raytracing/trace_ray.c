@@ -6,7 +6,11 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/25 01:59:07 by bditte            #+#    #+#             */
+<<<<<<< HEAD:src/raytracing/trace_ray.c
 /*   Updated: 2020/12/09 11:53:10 by bditte           ###   ########.fr       */
+=======
+/*   Updated: 2020/11/28 21:57:42 by bditte           ###   ########.fr       */
+>>>>>>> 8b13f38c897270853813f46c33c7461b645fb91f:src/raytracing/trace_ray.c
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +33,7 @@ void		inter2(t_scene s, t_inter last, t_inter *res)
 	if (s.nbsquares > 0)
 	{
 		last = ray_square(s);
+<<<<<<< HEAD:src/raytracing/trace_ray.c
 		if ((last.t < res->t && last.t > 0) || res->t == -1)
 			*res = last;
 	}
@@ -36,6 +41,8 @@ void		inter2(t_scene s, t_inter last, t_inter *res)
 	{
 		last = ray_disk(s);
 		//printf("%f\n", last.t);
+=======
+>>>>>>> 8b13f38c897270853813f46c33c7461b645fb91f:src/raytracing/trace_ray.c
 		if ((last.t < res->t && last.t > 0) || res->t == -1)
 			*res = last;
 	}

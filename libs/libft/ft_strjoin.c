@@ -1,31 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   plane.h                                            :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/18 21:16:45 by bditte            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2020/12/08 14:35:42 by bditte           ###   ########.fr       */
-=======
-/*   Updated: 2020/11/22 02:07:06 by bditte           ###   ########.fr       */
->>>>>>> 8b13f38c897270853813f46c33c7461b645fb91f
+/*   Created: 2019/11/18 11:39:35 by bditte            #+#    #+#             */
+/*   Updated: 2019/11/18 14:30:27 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PLANE_H
-# define PLANE_H
+#include "libft.h"
 
-# include "minirt.h"
-
-typedef	struct	s_plane
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	t_vector	c;
-	t_vector	n;
-	t_vector	color;
-}				t_plane;
+	char	*dst;
+	size_t	s1len;
+	size_t	s2len;
 
-t_plane			create_plane(t_vector c, t_vector n, t_vector color);
-int				hit_pl(t_plane pl, t_ray r, t_inter *inter);
-#endif
+	if (!s1 && !s2)
+		return (NULL);
+	s1len = 0;
+	while (s1[s1len])
+		s1len++;
+	s2len = 0;
+	while (s2[s2len])
+		s2len++;
+	if (!(dst = malloc(sizeof(char) * (s1len + s2len + 1))))
+		return (NULL);
+	while (*s1)
+		*dst++ = *s1++;
+	while (*s2)
+		*dst++ = *s2++;
+	*dst = 0;
+	return (dst - s1len - s2len);
+}

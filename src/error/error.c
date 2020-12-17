@@ -6,7 +6,11 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 00:09:50 by bditte            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2020/12/08 14:24:46 by bditte           ###   ########.fr       */
+=======
+/*   Updated: 2020/11/22 16:43:24 by bditte           ###   ########.fr       */
+>>>>>>> 8b13f38c897270853813f46c33c7461b645fb91f
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +48,11 @@ void	objects_error(int n)
 		ft_putstr("Error -23: Invalid sphere\n");
 	if (n == -24)
 		ft_putstr("Error -24: Invalid square\n");
+<<<<<<< HEAD
 	if (n == -25)
 		ft_putstr("Error -25: Invalid disk\n");
+=======
+>>>>>>> 8b13f38c897270853813f46c33c7461b645fb91f
 }
 
 int		error(int n)
