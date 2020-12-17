@@ -6,11 +6,8 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/18 21:14:39 by bditte            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2020/12/08 14:17:07 by bditte           ###   ########.fr       */
-=======
+/*   Updated: 2020/12/17 16:00:05 by bditte           ###   ########.fr       */
 /*   Updated: 2020/11/23 16:05:05 by bditte           ###   ########.fr       */
->>>>>>> 8b13f38c897270853813f46c33c7461b645fb91f
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +33,7 @@ void			parse_tr(char **line, t_scene *scene);
 void			parse_cy(char **line, t_scene *scene);
 void			parse_sq(char **line, t_scene *scene);
 void			parse_pl(char **line, t_scene *scene);
-<<<<<<< HEAD
 void			parse_ds(char **line, t_scene *scene);
-=======
->>>>>>> 8b13f38c897270853813f46c33c7461b645fb91f
 t_vector		parse_vec(char *line);
 t_vector		conv_color(t_vector color);
 float			ft_atof(char *str);

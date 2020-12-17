@@ -6,11 +6,8 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/22 00:47:20 by bditte            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2020/12/16 18:39:55 by bditte           ###   ########.fr       */
-=======
+/*   Updated: 2020/12/17 16:03:57 by bditte           ###   ########.fr       */
 /*   Updated: 2020/11/30 19:59:19 by bditte           ###   ########.fr       */
->>>>>>> 8b13f38c897270853813f46c33c7461b645fb91f
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +27,8 @@ void	count_objects(int fd, t_scene *scene)
 			scene->nbplanes++;
 		else if (l[0] == 't' && l[1] == 'r' && ft_isspace(l[2]))
 			scene->nbtriangles++;
-<<<<<<< HEAD
 		else if (l[0] == 'd' && l[1] == 's' && ft_isspace(l[2]))
 			scene->nbdisks++;
-=======
->>>>>>> 8b13f38c897270853813f46c33c7461b645fb91f
 		else if (l[0] == 'c' && l[1] == 'y' && ft_isspace(l[2]))
 			scene->nbcylinders++;
 		else if (l[0] == 'c' && ft_isspace(l[1]))
@@ -69,12 +63,9 @@ void	scene_init(t_scene *s)
 	if (s->nbsquares)
 		if (!(s->squares = malloc(sizeof(t_square) * s->nbsquares)))
 			error(-3);
-<<<<<<< HEAD
 	if (s->nbdisks)
 		if (!(s->disks = malloc(sizeof(t_disk) * s->nbdisks)))
 			error(-3);
-=======
->>>>>>> 8b13f38c897270853813f46c33c7461b645fb91f
 	if (s->nbcams)
 		if (!(s->cams = malloc(sizeof(t_cam) * s->nbcams)))
 			error(-3);
@@ -101,11 +92,8 @@ void	check_flags(char *line, t_scene *scene)
 		parse_tr(tab, scene);
 	else if (line[0] == 'c' && line[1] == 'y' && ft_isspace(line[2]))
 		parse_cy(tab, scene);
-<<<<<<< HEAD
 	else if (line[0] == 'd' && line[1] == 's' && ft_isspace(line[2]))
 		parse_ds(tab, scene);
-=======
->>>>>>> 8b13f38c897270853813f46c33c7461b645fb91f
 	else if (line[0] == 'c' && ft_isspace(line[1]))
 		parse_c(tab, scene);
 	ft_free(tab);
