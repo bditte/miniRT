@@ -84,5 +84,3 @@ If more than one cameras are declared in the scene, you can switch using `←` a
 ![columns](https://i.imgur.com/YeExZBU.png)
 
 ![pyramid](https://i.imgur.com/9rZqcPF.png)
-
-![disks](https://imgur.com/undefined)
