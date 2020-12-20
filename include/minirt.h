@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 20:41:42 by bditte            #+#    #+#             */
-/*   Updated: 2020/12/16 21:37:43 by bditte           ###   ########.fr       */
+/*   Updated: 2020/12/20 19:18:18 by bditte           ###   ########.fr       */
 /*   Updated: 2020/12/02 16:20:57 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -21,6 +21,8 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <float.h>
+# include <time.h>
+
 
 # include "vector.h"
 # include "color.h"
@@ -47,6 +49,8 @@
 
 # define PI 3.1415926535897932
 # define EPSILON 1e-6
+
+# define AA_COUNT 10
 
 # define INT_MAX 2147486647
 # define SPHERE 0

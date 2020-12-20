@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/22 01:26:09 by bditte            #+#    #+#             */
-/*   Updated: 2020/12/17 16:04:36 by bditte           ###   ########.fr       */
+/*   Updated: 2020/12/20 19:06:50 by bditte           ###   ########.fr       */
 /*   Updated: 2020/11/30 18:04:32 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -36,6 +36,7 @@ void		set_to_zero(t_scene *scene)
 	scene->data.r = 0;
 	scene->data.a = 0;
 	scene->current_cam = 0;
+	scene->anti_aliasing = -1;
 }
 
 int			check_id(char *l)
@@ -61,6 +62,8 @@ int			check_id(char *l)
 	if (l[0] == 'c' && l[1] == 'y' && ft_isspace(l[2]))
 		return (0);
 	if (l[0] == 'd' && l[1] == 's' && ft_isspace(l[2]))
+		return (0);
+	if (l[0] == 'A' && l[1] == 'A' && ft_isspace(l[2]))
 		return (0);
 	return (1);
 }

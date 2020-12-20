@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 18:03:43 by bditte            #+#    #+#             */
-/*   Updated: 2020/11/28 20:00:19 by bditte           ###   ########.fr       */
+/*   Updated: 2020/12/20 15:04:14 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,14 @@ t_vector	vec_multi(t_vector a, t_vector b)
 	result.y = a.y * b.y;
 	result.z = a.z * b.z;
 	return (result);
+}
+
+t_vector	vec_divide_t(float t, t_vector vec)
+{
+	t_vector	res;
+
+	res.x = vec.x / t;
+	res.y = vec.y / t;
+	res.y = vec.y / t;
+	return (res);
 }

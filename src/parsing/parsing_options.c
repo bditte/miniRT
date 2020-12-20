@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cylinder.h                                         :+:      :+:    :+:   */
+/*   parsing_options.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/18 20:45:10 by bditte            #+#    #+#             */
-/*   Updated: 2020/12/19 19:22:44 by bditte           ###   ########.fr       */
+/*   Created: 2020/12/20 18:43:50 by bditte            #+#    #+#             */
+/*   Updated: 2020/12/20 19:23:55 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CYLINDER_H
-# define CYLINDER_H
+#include "minirt.h"
 
-# include "minirt.h"
-
-typedef	struct	s_cylinder
+void	parse_aa(char **line, t_scene *scene)
 {
-	t_vector	c;
-	t_vector	axis;
-	float		r;
-	float		h;
-	t_vector	color;
-}				t_cylinder;
-
-t_cylinder		create_cy(t_vector c, t_vector a, float r, float h, t_vector b);
-#endif
+	if (nb_elem(line) != 2)
+		error(-17);
+	if (ft_strlen(line[1]) != 1)
+		error(-17);
+	if (line[1][0] == '1')
+		scene->anti_aliasing += AA_COUNT + 1;
+	else if (line[1][0] == '0')
+		scene->anti_aliasing += 1;
+	else
+		error(-17);
+}

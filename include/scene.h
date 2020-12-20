@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/18 20:49:18 by bditte            #+#    #+#             */
-/*   Updated: 2020/12/17 15:58:39 by bditte           ###   ########.fr       */
+/*   Updated: 2020/12/20 18:39:00 by bditte           ###   ########.fr       */
 /*   Updated: 2020/11/30 18:40:05 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -51,5 +51,6 @@ typedef	struct	s_scene
 	t_vector		ambient_color;
 	t_data			data;
 	int				save_bmp;
+	int				anti_aliasing;
 }				t_scene;
 #endif

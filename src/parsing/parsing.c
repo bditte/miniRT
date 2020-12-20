@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/22 00:47:20 by bditte            #+#    #+#             */
-/*   Updated: 2020/12/17 16:03:57 by bditte           ###   ########.fr       */
+/*   Updated: 2020/12/20 19:23:57 by bditte           ###   ########.fr       */
 /*   Updated: 2020/11/30 19:59:19 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -94,6 +94,8 @@ void	check_flags(char *line, t_scene *scene)
 		parse_cy(tab, scene);
 	else if (line[0] == 'd' && line[1] == 's' && ft_isspace(line[2]))
 		parse_ds(tab, scene);
+	else if (line[0] == 'A' && line[1] == 'A' && ft_isspace(line[2]))
+		parse_aa(tab, scene);
 	else if (line[0] == 'c' && ft_isspace(line[1]))
 		parse_c(tab, scene);
 	ft_free(tab);
@@ -118,6 +120,10 @@ int		parse(int ac, char **av, t_scene *scene)
 		error(-14);
 	if (!scene->nbcams)
 		error(-16);
+	if (scene->anti_aliasing == -1)
+		error(-18);
+	if (scene->anti_aliasing != AA_COUNT && scene->anti_aliasing != 0)
+		error(-19);
 	scene->spheres -= scene->nbspheres;
 	scene->planes -= scene->nbplanes;
 	scene->triangles -= scene->nbtriangles;

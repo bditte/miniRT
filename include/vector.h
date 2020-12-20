@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/18 20:41:03 by bditte            #+#    #+#             */
-/*   Updated: 2020/12/17 15:58:27 by bditte           ###   ########.fr       */
+/*   Updated: 2020/12/20 18:05:16 by bditte           ###   ########.fr       */
 /*   Updated: 2020/11/28 21:39:03 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -38,6 +38,7 @@ t_vector		vec_init(float x, float y, float z);
 t_vector		vec_add(t_vector vec1, t_vector vec2);
 t_vector		vec_multiply_t(float t, t_vector vec);
 t_vector		vec_multi(t_vector a, t_vector b);
+t_vector		vec_divide_t(float t, t_vector vec);
 void			vec_display(t_vector vec);
 int				vec_cmp(t_vector v1, t_vector v2);
 t_vector		make_unit_vec(t_vector vec);

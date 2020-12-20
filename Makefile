@@ -34,6 +34,7 @@ SRC =			main.c \
 				parsing/parsing_scene.c \
 				parsing/parsing_objects.c \
 				parsing/parsing_elem.c \
+				parsing/parsing_options.c \
 				error/error.c \
 				error/error_utils.c	
 NAME =			miniRT
@@ -78,7 +79,7 @@ norme:
 				norminette $(DIR_SRCS)
 				norminette $(DIR_HEADERS)
 
-clean:
+clean:			all
 			make clean -C $(DIR_LIBFT)
 			$(RM) $(OBJS)
 

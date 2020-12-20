@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 00:09:50 by bditte            #+#    #+#             */
-/*   Updated: 2020/12/17 16:05:06 by bditte           ###   ########.fr       */
+/*   Updated: 2020/12/20 19:15:27 by bditte           ###   ########.fr       */
 /*   Updated: 2020/11/22 16:43:24 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -20,7 +20,7 @@ void	scene_error(int n)
 	if (n == -111)
 		ft_putstr("Error -111: Resolution has to be declared only once.\n");
 	if (n == -112)
-		ft_putstr("Error -112: Ambient light has to be declared once only.\n");
+		ft_putstr("Error -112: Ambient light has to be declared only once.\n");
 	if (n == -12)
 		ft_putstr("Error -12: Invalid ambient light.\n");
 	if (n == -13)
@@ -31,6 +31,12 @@ void	scene_error(int n)
 		ft_putstr("Error -15: Invalid camera.\n");
 	if (n == -16)
 		ft_putstr("Error -16: Atleast one camera is required.\n");
+	if (n == -17)
+		ft_putstr("Error -17: Anti-aliasing is incorrectly declared.\n");
+	if (n == -18)
+		ft_putstr("Error -18: Anti-aliasing is missing.\n");
+	if (n == -19)
+		ft_putstr("Error -19: Anti-aliasing has to be declared only once.\n");
 }
 
 void	objects_error(int n)
