@@ -18,7 +18,8 @@ You can switch with scenes inside the **scenes** folder or creating a new one. N
 ### Scene format
 Every scene file requires a single **resolution** and a single **ambient light**. If the scene does not contains **one and only one** of each of these, an error will be returned.
 
-![Example of scene](https://imgur.com/IVPaq3i.png)
+#### Scene.rt
+![Example of scene](https://i.imgur.com/fgrVLmk.png)
 
 ##### Resolution
 `R 1920 1080`
@@ -29,6 +30,11 @@ Every scene file requires a single **resolution** and a single **ambient light**
 `A  0.5 255,255,255`
 
 `A` : ambient light argument `0.5`  one float **[0;1]** : light intensity  `255,255,255` three floats : light color (RGB).
+
+##### Anti-Aliasing
+`AA 1`
+
+`AA` : antia-aliasing argument `1` zero or one, 1 to enable antia-aliasing, 0 to disable.
 
 ##### Camera
 `c 0,0,0  0,0,1 80`
@@ -49,6 +55,11 @@ Every scene file requires a single **resolution** and a single **ambient light**
 `cy 0,02  0,1,0 0.5 0.5 0,255,0`
 
 `cy` : cylinder argument `0,0,2` three floats : cylinder center position `0,1,0` three floats : cylinder orientation vector `0.5` one float : cylinder diameter `0.5` one float : cylinder height `0,255,0` three floats : cylinder color (RGB).
+
+##### Disk
+`ds 0,-1.1,2  0,1,0 0.5 50,128,255`
+
+`ds` : disk argument `0,-1.1,2` three floats : disk center postion `0,1,0` three floats : disk normal vector `0.5` one float : disk diameter `50,128,255` three floats : disk color (RGB).
 
 ##### Triangle
 `tr -0.5,-0.5,2 -1,-0.5,2 -0.75,0.4,2 0,0,255`
