@@ -11,7 +11,7 @@ It also needs some [libft](github.com/bditte/libft) functions. This library is a
 ### Running miniRT
 In order to setup every libraries, you first need to run the **mlx_setup.sh** script by typing `sh mlx_setup.sh` .
 
-You can then compile by running `make` command and then executes with `./miniRT scenes/scene.rt` . 
+You can then compile by running `make` command and then execute with `./miniRT scenes/scene.rt` . 
 
 You can switch with scenes inside the **scenes** folder or creating a new one. Note that the scene file needs to be a **.rt** file.
 
